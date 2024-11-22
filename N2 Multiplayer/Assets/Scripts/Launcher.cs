@@ -11,11 +11,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     public InputField playerNickname;
     public GameObject nicknameInput;
 
+    private LevelManager levelManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        //PhotonNetwork.ConnectUsingSettings();
     }
 
 
@@ -24,6 +27,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connected to Master");
         PhotonNetwork.JoinRandomOrCreateRoom();
+        
         //base.OnConnectedToMaster(); //Instanciado ao criar classe
     }
 
@@ -31,13 +35,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined a room");
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+        levelManager.startTempo = true;
         //base.OnJoinedRoom(); //Instanciado ao criar classe
     }
 
     public void StartTheGame()
     {
         PhotonNetwork.NickName = playerNickname.text;
-        //PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings();
 
         nicknameInput.SetActive(true);
     }
