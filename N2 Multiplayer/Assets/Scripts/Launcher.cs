@@ -15,7 +15,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        //PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.ConnectUsingSettings();
     }
 
 
@@ -37,7 +37,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void StartTheGame()
     {
         PhotonNetwork.NickName = playerNickname.text;
-        PhotonNetwork.ConnectUsingSettings();
+        //PhotonNetwork.ConnectUsingSettings();
 
         nicknameInput.SetActive(true);
     }
