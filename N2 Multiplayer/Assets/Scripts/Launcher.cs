@@ -12,11 +12,13 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject nicknameInput;
 
     private LevelManager levelManager;
+    private InimigoController inimigoController;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        inimigoController = GameObject.Find("Inimigo").GetComponent<InimigoController>();
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         //PhotonNetwork.ConnectUsingSettings();
     }
@@ -35,8 +37,21 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joined a room");
         PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+
+
         levelManager.startTempo = true;
-        //base.OnJoinedRoom(); //Instanciado ao criar classe
+
+        // Agora vamos esperar um momento para garantir que todos os jogadores foram instanciados antes de buscar os jogadores
+        StartCoroutine(FindPlayersWithDelay());
+    }
+
+    private IEnumerator FindPlayersWithDelay()
+    {
+        // Espera um segundo para garantir que todos os jogadores tenham sido instanciados
+        yield return new WaitForSeconds(3f);
+
+        // Agora podemos chamar o método de encontrar os jogadores
+        inimigoController.FindPlayers();
     }
 
     public void StartTheGame()

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3374662473091902383}
   - component: {fileID: 8914694482848133721}
   - component: {fileID: 7796692744360153604}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 284381656378611295}
   - component: {fileID: 2259396576258267470}
   - component: {fileID: 29452697558117567}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Txt Nickname
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,9 +217,9 @@ GameObject:
   - component: {fileID: 4050595882833028089}
   - component: {fileID: 921204852653175030}
   - component: {fileID: 4616018763818902635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerObj
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 5394805879530197258}
   - component: {fileID: 8043510688745569503}
   - component: {fileID: 6828371752519498621}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 2255411082576749383}
   - component: {fileID: 1067250662335844428}
   - component: {fileID: 7369491691892546964}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
