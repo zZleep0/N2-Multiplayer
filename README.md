@@ -1,4 +1,10 @@
 # N2-Multiplayer
+
+Luiz 00114639
+Luan 00114682
+
+Assets usados:
+
 https://sketchfab.com/3d-models/low-poly-kid-47322cc487b4483080a66e5b25853f29
 https://poly.pizza/bundle/Animated-Dinosaur-Bundle-SmoLdBLO2K
 https://poly.pizza/bundle/Cars-Bundle-FE5IWe6OMk
