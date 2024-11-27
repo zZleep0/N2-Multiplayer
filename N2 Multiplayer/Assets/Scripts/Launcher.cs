@@ -36,7 +36,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined a room");
-        PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+
+        // Instanciar o jogador
+        GameObject playerObject = PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity).gameObject;
+        // Definir o nome do objeto do jogador como o nickname
+        playerObject.name = "Player " + PhotonNetwork.NickName;
 
 
         levelManager.startTempo = true;
@@ -52,6 +56,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         // Agora podemos chamar o método de encontrar os jogadores
         inimigoController.FindPlayers();
+
     }
 
     public void StartTheGame()

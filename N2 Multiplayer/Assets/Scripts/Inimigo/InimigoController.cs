@@ -16,7 +16,10 @@ public class InimigoController : MonoBehaviourPunCallbacks
     [SerializeField] private float lookThreshold = 0.8f;
 
     // Lista para armazenar todos os jogadores
-    private List<Transform> players = new List<Transform>();
+    [SerializeField] private List<Transform> players = new List<Transform>();
+
+    [SerializeField] private float changeTargetCooldown = 5f; // Tempo de espera antes de trocar o alvo
+    private bool canChangeTarget = true; // Controla se o inimigo pode trocar de alvo
 
 
     // Start is called before the first frame update
@@ -26,46 +29,31 @@ public class InimigoController : MonoBehaviourPunCallbacks
         {
             if (!TryGetComponent(out agent))
             {
-                Debug.LogWarning(name + "precisa colocar um navmesh agent");
+                Debug.LogWarning(name + " precisa colocar um NavMesh Agent");
             }
         }
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
         if (players.Count == 0)
         {
             Debug.Log("Nenhum jogador encontrado.");
             return;
         }
 
-        // Encontrar o jogador mais próximo
-        FindClosestPlayer();
-
-        //if (target == null)
-        //{
-        //    Debug.Log("inimigo achou player");
-        //    target = GameObject.Find("Player").GetComponent<Transform>();
-        //}
+        // Se o cooldown estiver ativo, não chama a função
+        if (canChangeTarget)
+        {
+            // Encontrar o jogador mais próximo
+            FindClosestPlayer();
+        }
 
         if (target != null)
         {
             MoveToTarget();
-
-            //if (Vector3.Dot(transform.forward.normalized, target.position.normalized) <= lookThreshold && Vector3.Distance(transform.position, target.position) <= killDistance)
-            //{
-            //    KillTarget();
-
-            //    return;
-            //}
         }
-
-        
     }
 
     public void FindPlayers()
@@ -73,18 +61,15 @@ public class InimigoController : MonoBehaviourPunCallbacks
         // Limpar a lista de jogadores a cada chamada
         players.Clear();
 
-        // Iterar sobre os jogadores conectados
-        foreach (var player in PhotonNetwork.PlayerList)
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject playerObject in playerObjects)
         {
-            // Encontrar o GameObject do jogador pela sua ID (ou NickName, dependendo do que está sendo usado na cena)
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player"); // Ou usar uma outra forma de identificar o jogador na cena
-
-            
-
-            // Verifique se o jogador está instanciado na cena
-            if (playerObject != null)
+            // Verificar se o objeto tem PhotonView e se é válido
+            PhotonView photonView = playerObject.GetComponent<PhotonView>();
+            if (photonView != null && photonView.Owner != null)
             {
-                // Adiciona o transform do jogador na lista
+                // Adicionar apenas jogadores conectados via Photon
                 players.Add(playerObject.transform);
             }
         }
@@ -95,11 +80,30 @@ public class InimigoController : MonoBehaviourPunCallbacks
     // Encontra o jogador mais próximo
     private void FindClosestPlayer()
     {
+        if (!canChangeTarget)
+        {
+            Debug.Log("Aguardando cooldown para trocar de alvo.");
+            return;
+        }
+
+        if (players == null || players.Count == 0)
+        {
+            Debug.LogWarning("Nenhum jogador disponível na lista para encontrar o mais próximo.");
+            target = null;
+            return;
+        }
+
         Transform closestPlayer = null;
         float closestDistance = Mathf.Infinity;
 
         foreach (Transform player in players)
         {
+            if (player == null)
+            {
+                Debug.LogWarning("Um dos jogadores na lista está nulo.");
+                continue; // Pula iterações com jogadores inválidos
+            }
+
             float distance = Vector3.Distance(transform.position, player.position);
             if (distance < closestDistance)
             {
@@ -108,17 +112,37 @@ public class InimigoController : MonoBehaviourPunCallbacks
             }
         }
 
-        target = closestPlayer;
+        if (closestPlayer != null)
+        {
+            if (target == null || target != closestPlayer)
+            {
+                target = closestPlayer;
+                Debug.Log("Novo alvo selecionado: " + target.name);
+                StartCoroutine(ChangeTargetCooldown());
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Nenhum jogador válido foi encontrado como mais próximo.");
+            target = null;
+        }
+    }
+
+    private IEnumerator ChangeTargetCooldown()
+    {
+        canChangeTarget = false; // Bloqueia a troca de alvo
+        yield return new WaitForSeconds(changeTargetCooldown); // Espera pelo tempo definido
+        canChangeTarget = true; // Permite trocar de alvo novamente
+        Debug.Log("Cooldown finalizado. Pode trocar de alvo novamente.");
     }
 
     private void MoveToTarget()
     {
-        agent.SetDestination(target.position);
-        agent.isStopped = false;
-    }
-
-    private void KillTarget()
-    {
-        Debug.Log("morreu");
+        if (target != null)
+        {
+            agent.SetDestination(target.position);
+            agent.isStopped = false;
+        }
     }
 }
+

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class LevelManager : MonoBehaviour
 {
     public int pontos = 0;
+    public Text txtPontos;
+
     public bool vitoria = false;
     public bool derrota = false;
 
@@ -25,6 +27,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        txtPontos.text = pontos + "/10";
 
         //if (tempo < 120 && vitoria == false && startTempo)
         //{
