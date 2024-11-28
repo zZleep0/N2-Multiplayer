@@ -21,6 +21,8 @@ public class InimigoController : MonoBehaviourPunCallbacks
     [SerializeField] private float changeTargetCooldown = 5f; // Tempo de espera antes de trocar o alvo
     private bool canChangeTarget = true; // Controla se o inimigo pode trocar de alvo
 
+    public float tempoCD = 2f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,11 +45,18 @@ public class InimigoController : MonoBehaviourPunCallbacks
             return;
         }
 
+        tempoCD -= Time.deltaTime;
+
         // Se o cooldown estiver ativo, não chama a função
-        if (canChangeTarget)
+        if (canChangeTarget && tempoCD <= 0)
         {
+
+            Debug.Log("ta tentando encontrar player mais proximo");
+
             // Encontrar o jogador mais próximo
             FindClosestPlayer();
+
+            tempoCD = 2f;
         }
 
         if (target != null)
