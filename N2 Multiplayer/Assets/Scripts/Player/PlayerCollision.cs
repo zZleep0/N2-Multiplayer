@@ -46,5 +46,16 @@ public class PlayerCollision : MonoBehaviourPunCallbacks
             }
             Debug.Log($"Colidiu com {hitCollider.gameObject.name} no layer {tipo} !");
         }
+
+        foreach (Collider hitCollider in hitColliders)
+        {
+            if (tipo == "Inimigo")
+            {
+                
+                Debug.Log("pego pela muie");
+                
+            }
+            Debug.Log($"Colidiu com {hitCollider.gameObject.name} no layer {tipo} !");
+        }
     }
 }
