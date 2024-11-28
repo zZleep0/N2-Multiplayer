@@ -10,6 +10,8 @@ public class InimigoController : MonoBehaviourPunCallbacks
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform target;
 
+    
+
     //Distancia para ele eliminar o alvo
     [SerializeField] private float killDistance = 3f;
     //Quanto o npc tem que girar para atingir o alvo para elimina-lo
@@ -53,16 +55,15 @@ public class InimigoController : MonoBehaviourPunCallbacks
 
             Debug.Log("ta tentando encontrar player mais proximo");
 
+            target = null;
+
             // Encontrar o jogador mais próximo
             FindClosestPlayer();
 
             tempoCD = 2f;
         }
 
-        if (target != null)
-        {
-            MoveToTarget();
-        }
+        MoveToTarget();
     }
 
     public void FindPlayers()
@@ -127,6 +128,8 @@ public class InimigoController : MonoBehaviourPunCallbacks
             {
                 target = closestPlayer;
                 Debug.Log("Novo alvo selecionado: " + target.name);
+                
+                
                 StartCoroutine(ChangeTargetCooldown());
             }
         }
@@ -149,6 +152,7 @@ public class InimigoController : MonoBehaviourPunCallbacks
     {
         if (target != null)
         {
+            
             agent.SetDestination(target.position);
             agent.isStopped = false;
         }
