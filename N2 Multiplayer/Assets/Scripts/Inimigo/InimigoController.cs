@@ -19,7 +19,7 @@ public class InimigoController : MonoBehaviourPunCallbacks
     [SerializeField] private List<Transform> players = new List<Transform>();
 
     [SerializeField] private float changeTargetCooldown = 5f; // Tempo de espera antes de trocar o alvo
-    private bool canChangeTarget = true; // Controla se o inimigo pode trocar de alvo
+    [SerializeField] private bool canChangeTarget = true; // Controla se o inimigo pode trocar de alvo
 
     public float tempoCD = 2f;
 
@@ -123,7 +123,7 @@ public class InimigoController : MonoBehaviourPunCallbacks
 
         if (closestPlayer != null)
         {
-            if (target == null || target != closestPlayer)
+            if (target != closestPlayer)
             {
                 target = closestPlayer;
                 Debug.Log("Novo alvo selecionado: " + target.name);
