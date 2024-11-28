@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
@@ -11,8 +12,7 @@ public class LevelManager : MonoBehaviour
     public bool vitoria = false;
     public bool derrota = false;
 
-    public GameObject pnlDerrota;
-    public GameObject pnlVitoria;
+    
 
     public Text txtTempo;
     public float tempo;
@@ -48,11 +48,11 @@ public class LevelManager : MonoBehaviour
 
         if (derrota)
         {
-            pnlDerrota.SetActive(true);
+            
         }
         if (vitoria)
         {
-            pnlVitoria.SetActive(true);
+            SceneManager.LoadSceneAsync("Vitoria");
         }
     }
 }

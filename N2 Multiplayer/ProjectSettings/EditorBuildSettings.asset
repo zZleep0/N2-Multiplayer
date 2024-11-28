@@ -8,5 +8,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/school/DemoScene/all_objects.unity
     guid: c206d02e77fbc3148a269062ea0e8069
+  - enabled: 1
+    path: Assets/Scenes/Derrota.unity
+    guid: 8f458fcd2a3b210439d7a57a99f4297e
+  - enabled: 1
+    path: Assets/Scenes/Vitoria.unity
+    guid: 39b2d1c936c5c8c4885a26f7295991e1
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

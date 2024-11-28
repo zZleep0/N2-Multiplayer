@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCollision : MonoBehaviourPunCallbacks
 {
@@ -44,18 +45,19 @@ public class PlayerCollision : MonoBehaviourPunCallbacks
                 Debug.Log(levelManager.pontos);
                 Destroy(hitCollider.gameObject);
             }
+
+            else if (tipo == "Inimigo")
+            {
+
+                Debug.Log("pego pela muie");
+                SceneManager.LoadSceneAsync("Derrota");
+                Destroy(gameObject);
+
+            }
+
             Debug.Log($"Colidiu com {hitCollider.gameObject.name} no layer {tipo} !");
         }
 
-        foreach (Collider hitCollider in hitColliders)
-        {
-            if (tipo == "Inimigo")
-            {
-                
-                Debug.Log("pego pela muie");
-                
-            }
-            Debug.Log($"Colidiu com {hitCollider.gameObject.name} no layer {tipo} !");
-        }
+        
     }
 }
